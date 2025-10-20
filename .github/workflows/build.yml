@@ -10,10 +10,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Build with Buildozer Docker
+    - name: Build with alternative Docker image
       run: |
         docker run --rm \
-          -v $PWD:/home/buildozer/android \
-          -w /home/buildozer/android \
-          crazymax/buildozer:latest \
+          -v $PWD:/src \
+          -w /src \
+          kivy/buildozer:latest \
           buildozer android debug
