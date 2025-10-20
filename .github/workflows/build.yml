@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-20.04  # Используем старую версию где всё работает
+    runs-on: ubuntu-latest  # Меняем на LATEST вместо 20.04
     
     steps:
     - name: Checkout code
@@ -15,26 +15,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y wget unzip openjdk-11-jdk
         
-        # Скачиваем Android Command Line Tools
-        wget -q https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
-        mkdir -p android-sdk
-        unzip -q commandlinetools-linux-8092744_latest.zip -d android-sdk
-        mkdir -p android-sdk/cmdline-tools/latest
-        mv android-sdk/cmdline-tools/* android-sdk/cmdline-tools/latest/
-        
-        echo "ANDROID_SDK_ROOT=$PWD/android-sdk" >> $GITHUB_ENV
-        echo "$PWD/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
-        echo "$PWD/android-sdk/platform-tools" >> $GITHUB_PATH
-        
-    - name: Accept licenses and install packages
+    - name: Install Buildozer
       run: |
-        yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
-        $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platforms;android-31" "build-tools;31.0.0" "platform-tools"
-        
-    - name: Install Python and Buildozer
-      run: |
-        sudo apt-get install -y python3.9 python3-pip python3-venv
-        pip3 install buildozer cython==0.29.19
+        pip install buildozer
         
     - name: Build APK
       run: |
