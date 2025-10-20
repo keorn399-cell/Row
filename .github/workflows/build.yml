@@ -4,20 +4,17 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Меняем на LATEST вместо 20.04
+    runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Android SDK
+    - name: Install everything
       run: |
         sudo apt-get update
-        sudo apt-get install -y wget unzip openjdk-11-jdk
-        
-    - name: Install Buildozer
-      run: |
-        pip install buildozer
+        sudo apt-get install -y python3-pip openjdk-11-jdk
+        pip3 install buildozer cython==0.29.19
         
     - name: Build APK
       run: |
