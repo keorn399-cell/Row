@@ -1,21 +1,12 @@
-name: Build Android APK
-
+name: Build APK
 on: [push]
-
 jobs:
   build:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-20.04
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Install everything
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-pip openjdk-11-jdk
-        pip3 install buildozer cython==0.29.19
-        
-    - name: Build APK
-      run: |
-        buildozer -v android debug
+    - uses: actions/checkout@v4
+    - run: |
+        sudo apt update
+        sudo apt install -y python3-pip openjdk-11-jdk
+        pip3 install buildozer
+        buildozer android debug
