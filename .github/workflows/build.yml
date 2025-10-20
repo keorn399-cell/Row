@@ -10,10 +10,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Build with alternative Docker image
+    - name: Build with manual setup
       run: |
-        docker run --rm \
-          -v $PWD:/src \
-          -w /src \
-          kivy/buildozer:latest \
-          buildozer android debug
+        # Установка Docker и запуск образа
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+        sudo docker pull kivy/buildozer
+        sudo docker run --rm -v $PWD:/src -w /src kivy/buildozer buildozer android debug
