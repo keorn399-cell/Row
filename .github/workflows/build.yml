@@ -10,31 +10,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
+    - name: Setup Android Environment
+      uses: crazy-max/ghaction-android@v2
+      with:
+        cmd: sdkmanager "build-tools;30.0.3" "platforms;android-27" "platform-tools"
+        
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
         
-    - name: Install system dependencies
+    - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y \
-          git \
-          autoconf \
-          automake \
-          libtool \
-          pkg-config \
-          zlib1g-dev \
-          libssl-dev \
-          openjdk-11-jdk \
-          wget \
-          unzip
-        
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-      
-    - name: Install Buildozer and Python dependencies
-      run: |
+        sudo apt-get install -y git autoconf automake libtool pkg-config zlib1g-dev
         pip install buildozer cython==0.29.19
         
     - name: Build APK
